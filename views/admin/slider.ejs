@@ -1,0 +1,27 @@
+<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+	<form role="search">
+		<div class="form-group">
+			<input type="text" class="form-control" placeholder="Search">
+		</div>
+	</form>
+	<ul class="nav menu">
+		<li class="<%- locals.active %>"><a href="/admin"><span class="glyphicon glyphicon-home"></span>后台首页</a></li>
+		<li class="<%- locals.hac %>"><a href="/admin/user"><span class="glyphicon glyphicon-user"></span>用户管理</a></li>
+		<li class="<%- locals.article %>"><a href="/admin/article"><span class="glyphicon glyphicon-list-alt"></span>文章发布</a></li>
+		<li class="<%- locals.nav %>"><a href="/admin/nav"><span class="glyphicon glyphicon-th-large"></span>导航管理</a></li>
+		<li class="parent ">
+			<a href="#">
+				<span class="glyphicon glyphicon-picture"></span>综合<span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span> 
+			</a>
+			<ul class="children collapse" id="sub-item-1">
+				<li class="<%- locals.ban %>">
+					<a href="/admin/banner">
+						<span class="glyphicon glyphicon-share-alt"></span> banner
+					</a>
+				</li>
+			</ul>
+		</li>
+		<li role="presentation" class="divider"></li>
+		<li><a href="/admin/login"><span class="glyphicon glyphicon-user"></span>登录</a></li>
+	</ul>
+</div><!--/.sidebar-->

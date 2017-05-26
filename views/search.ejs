@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<title>Home</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+		<script src="/js/jquery-3.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<!--头部-->
+		<% include header.ejs %>
+		<div id="header">
+			<div class="wrap">
+				<div class="sub-header">
+					<img src="/images/monitor.png" alt="" width="310" class="mac" />
+					<div class="desp">
+						<h1>Our Best Business</h1>
+						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+					</div>
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+		<div id="main">
+			<div class="wrap">
+				<div class="content">
+					<% if(cons.length == 0) { %>
+						<span class="text-center">暂无数据！</span>
+					<% } else { %>
+						<% for(let i in cons) { %>
+							<div class="article">
+								<h2><%- cons[i].title %></h2>
+								<div class="author">作者：<span><%- cons[i].author %></span>标签：<span><%- cons[i].tab %></span>发布日期：<span><%- cons[i].time %></span></div>
+								<div id="prev"><img src="<%- cons[i].img %>" alt="" /></div>
+								<p>
+									<%- cons[i].content.substring(0,600) %>
+								</p>
+								<div class="clear"></div>
+								<div class="tools">
+									<a href="/artdetail/<%- cons[i].id %>.html" class="wdetail">查看全文</a>
+								</div>
+							</div>
+						<% } %>
+					<% } %>
+				</div>
+				<div class="sidebar">
+					<div class="sub-sidebar">
+						<h2>最新文章</h2>
+						<ul class="sub-nav">
+							<% for(let i in lists) { %>
+								<li>
+									<a href="/artdetail/<%- lists[i].id %>.html"><%- lists[i].title %></a>
+								</li>
+							<% } %>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<!--底部-->
+		<% include footer.ejs %>
+	</body>
+
+</html>

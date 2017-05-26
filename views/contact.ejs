@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<title>Contact</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="/css/iconfont.css"/>
+		<link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+		<link rel="stylesheet" href="/css/jquery.mCustomScrollbar.min.css"/>
+	    <!--the css for this plugin-->
+	    <link rel="stylesheet" href="/css/jquery.emoji.css"/>
+		<script src="/js/jquery-3.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    	<script src="/js/socket.io.min.js" type="text/javascript" charset="utf-8"></script>
+		<!--(Optional) the js for jquery.mCustomScrollbar's addon-->
+		<script src="/js/jquery.mousewheel-3.0.6.min.js"></script>
+		<!--the js for jquery.mCustomScrollbar-->
+		<script src="/js/jquery.mCustomScrollbar.min.js"></script>
+		<!--the js for this plugin-->
+		<script src="/js/jquery.emoji.js"></script>
+		<link rel="stylesheet" type="text/css" href="/css/index.css"/>
+	</head>
+
+	<body>
+		<!--头部-->
+		<% include header.ejs %>
+		<div id="header">
+			<div class="wrap">
+				<div class="sub-header">
+					<img src="/images/monitor.png" alt="" width="310" class="mac" />
+					<div class="desp">
+						<h1>Our Best Business</h1>
+						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+					</div>
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+		<div id="main">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-8 col-md-offset-2 com">
+						<div class="row">
+							<div class="col-md-3 com">
+								<h4 class="text-center text-danger" data-toggle="collapse" 
+    							data-target="#demo">当前在线人数(<span id="num"></span>)</h4>
+    							<div id="demo" class="collapse">
+    								<ul class="list-group" id="namel">
+    								</ul>
+    							</div>
+							</div>
+							<div class="col-md-9 com">
+								<div class="lhead">	
+									<h4 class="ltstitle pull-left"><marquee id="juser"></marquee></h4>
+									<a href="javascript:;" class="btn btn-danger pull-right" id="join">进入聊天室</a>
+								</div>
+								<div class="lbody">
+									
+								</div>
+								<div class="lfoot">
+									<div id="lts" contenteditable="true"></div>
+									<a href="javascript:;" id="bq">
+									</a>
+									<a href="javascript:;" class="btn btn-primary" id="sendlts">发送</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--底部-->
+		<% include footer.ejs %>
+		<!--置顶-->
+		<script src="/js/ztop.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			//表情
+			$("#lts").emoji({
+			    button: "#bq",
+			    showTab: false,
+			    animation: 'slide',
+			    icons: [{
+			        name: "QQ表情",
+			        path: "/img/qq/",
+			        maxNum: 91,
+			        excludeNums: [41, 45, 54],
+			        file: ".gif"
+			    }]
+			});
+		   
+		   
+			//加入聊天室
+			$("#join").on("click",function(){
+				init();
+			})
+			let socket;
+			function init(){
+				//socket 连接
+				socket = io.connect("/");
+				//加入
+				socket.emit("login",{user:"<%- locals.user%>",uid:Date.now()});
+				socket.on("join",(data)=>{
+					document.getElementById("juser").innerText += data.u.user+"    "+"加入聊天室！";
+					document.getElementById("num").innerText = data.u.num;
+					document.getElementById("namel").innerHTML = "";
+					for(let i in data.ulist){
+						document.getElementById("namel").innerHTML += "<li class='list-group-item'>"+data.ulist[i]+"</li>";	
+					}
+				})
+				//退出聊天室
+				socket.on('esc',(data)=>{
+					document.getElementById("juser").innerText += data.name+"    "+"退出聊天室！";
+					document.getElementById("num").innerText = data.num;
+					document.getElementById("namel").innerHTML = "";
+					for(let i in data.ulist){
+						document.getElementById("namel").innerHTML += "<li class='list-group-item'>"+data.ulist[i]+"</li>";	
+					}
+				})
+			}
+			//发送信息
+			$("#sendlts").on("click",function(){
+		   		let con = $(this).siblings("#lts").html();
+		   		socket.emit("con",{con:con});
+		   		socket.on("em",(data)=>{
+		   			if(data.name == "<%- locals.user%>"){
+		   				$(".lbody").append("<p class='time text-center'>"+data.time+"</p>"+
+		   				"<p class='text-right'>"+data.name+"</p>"+
+		   				"<p class='mine text-right'>"+
+										"<span>"+data.gg+"</span>"+
+										"<img src='/images/corporate.PNG' width='40' height='40' class='img-circle'/>"+
+									"</p>");
+		   			}else{
+		   				$(".lbody").append("<p class='time text-center'>"+data.time+"</p>"+
+									"<p class='text-left'>"+data.name+"</p>"+
+									"<p class='qt text-left'>"+
+										"<img src='/images/corporate.PNG' width='40' height='40' class='img-circle'/>"+
+										"<span>"+data.gg+"</span>"+
+									"</p>");
+		   			}
+				})
+		   		$(this).siblings("#lts").html("");
+		   })
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>系统登录</title>
+		<link href="/css/login.css" rel="stylesheet" rev="stylesheet" type="text/css" media="all" />
+		<link href="/css/demo.css" rel="stylesheet" rev="stylesheet" type="text/css" media="all" />
+		<script type="text/javascript" src="/js/jquery1.42.min.js"></script>
+		<script type="text/javascript" src="/js/jquery.SuperSlide.js"></script>
+		<script type="text/javascript" src="/js/Validform_v5.3.2_min.js"></script>
+		<style type="text/css">
+			.reg{width: 242px;height: 38px;margin: 0 auto;background-color: #f70;border:none;box-shadow: 0 0 2px #B93D00 inset;}
+			.login-aside{top:70px;}
+			#o-box-up{height: 315px;}
+			.golog{width: 124px;margin: 0 auto;color:#fff;position: absolute;bottom: 122px;right: 77px;font-size: 12px;}
+			.golog a{text-decoration: underline;}
+		</style>
+	</head>
+
+	<body>
+
+		<div class="header">
+			<h1 class="headerLogo"><a title="后台管理系统" target="_blank" href="http://sc.chinaz.com/"><img alt="logo" src="/images/logo.gif"></a></h1>
+		</div>
+
+		<div class="banner">
+
+			<div class="login-aside">
+				<div id="o-box-up"></div>
+				<div id="o-box-down" style="table-layout:fixed;">
+					<div class="error-box"></div>
+
+					<form class="registerform" action="/admin/reg" method="post">
+						<div class="fm-item">
+							<label for="logonId" class="form-label">MISS系统登陆：</label>
+							<input type="text" placeholder="输入账号" required name="username" maxlength="100" id="username" class="i-text" ajaxurl="demo/valid.jsp" datatype="s6-18" errormsg="用户名至少6个字符,最多18个字符！">
+							<div class="ui-form-explain"></div>
+						</div>
+						<div class="fm-item">
+							<label for="logonId" class="form-label">登陆密码：</label>
+							<input type="password" placeholder="输入密码" required name="pwd" maxlength="100" id="password" class="i-text" datatype="*6-16" nullmsg="请设置密码！" errormsg="密码范围在6~16位之间！">
+							<div class="ui-form-explain"></div>
+						</div>
+						<div class="fm-item">
+							<label for="logonId" class="form-label"></label>
+							<input type="submit" value="注册" tabindex="4" id="send-btn" class="reg">
+							<div class="ui-form-explain"></div>
+						</div>
+					</form>
+					<p class="golog">已有账号？→<a href="/admin/login">去往登录</a></p>
+				</div>
+			</div>
+			<div class="bd">
+				<ul>
+					<li style="background:url(/themes/theme-pic1.jpg) #CCE1F3 center 0 no-repeat;">
+					</li>
+					<li style="background:url(/themes/theme-pic2.jpg) #BCE0FF center 0 no-repeat;">
+					</li>
+				</ul>
+			</div>
+
+			<div class="hd">
+				<ul></ul>
+			</div>
+		</div>
+		<script type="text/javascript">
+			jQuery(".banner").slide({
+				titCell: ".hd ul",
+				mainCell: ".bd ul",
+				effect: "fold",
+				autoPlay: true,
+				autoPage: true,
+				trigger: "click"
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<title>about</title>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="/css/style.css" type="text/css" media="all" />
+	<script src="/js/jquery-3.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="/css/jquery.mCustomScrollbar.min.css"/>
+    <!--the css for this plugin-->
+    <link rel="stylesheet" href="/css/jquery.emoji.css"/>
+	<script src="/js/jquery-3.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+	<!--(Optional) the js for jquery.mCustomScrollbar's addon-->
+	<script src="/js/jquery.mousewheel-3.0.6.min.js"></script>
+	<!--the js for jquery.mCustomScrollbar-->
+	<script src="/js/jquery.mCustomScrollbar.min.js"></script>
+	<!--the js for this plugin-->
+	<script src="/js/jquery.emoji.js"></script>
+	<style type="text/css">
+		.plun{margin-bottom: 30px;}
+		.plun #repl{margin-top: 20px;margin-bottom: 10px;outline:none;padding:15px;height: 150px;border:1px solid #e4e4e4;border-radius: 5px;overflow: auto;}
+		.plun #repl img{display: inline;vertical-align: middle;}
+		#mes{background: url(/images/1.gif) no-repeat;display: block;width: 30px;height: 30px;}
+	</style>
+</head>
+<body>
+	<!--头部-->
+	<% include header.ejs %>
+	<div id="header">
+		<div class="wrap">
+			<div class="sub-header">
+				<img src="/images/monitor.png" alt="" width="310" class="mac" />
+				<div class="desp">
+					<h1>Our Best Business</h1>
+					<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<!--回复-->
+    	<div class="row plun">
+			<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+				<span class="glyphicon glyphicon-star text-danger"></span><span class="text-danger">评论回复</span>
+				<div id="repl" contenteditable="true"></div>
+				<a href="javascript:;" id="mes" class="pull-left"></a>
+				<a href="javascript:;" class="btn btn-primary pull-right" id="hfu">发表</a>
+			</div>
+		</div>
+	</div>
+	<!--底部-->
+	<% include footer.ejs %>
+	<script type="text/javascript">
+		$(function(){
+			//回复
+			$("#repl").emoji({
+			    button: "#mes",
+			    showTab: false,
+			    animation: 'slide',
+			    icons: [{
+			        name: "QQ表情",
+			        path: "/img/qq/",
+			        maxNum: 91,
+			        excludeNums: [41, 45, 54],
+			        file: ".gif"
+			    }]
+			});
+			$("#hfu").on("click",function(){
+				let replycon = $("#repl").html();
+				if(replycon == ""){
+					alert("回复不能为空！");
+				}else{
+					$.ajax({
+						type:"post",
+						url:"/rep",
+						data:{
+							uid:"<%- uid %>",
+							pid:"<%- pid %>",
+							did:"<%- did %>",
+							reply:replycon
+						},
+						dataType:"json",
+						async:true,
+						success:function(data){
+							if(data.result == 1){
+								location.href = `/artdetail/${data.pid}.html`;
+							}
+						},
+						error:function(data){
+							alert(data.responseText);
+						}
+					});
+				}
+			})
+		})
+	</script>
+</body>
+</html>

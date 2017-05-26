@@ -1,0 +1,102 @@
+id 必须要有的
+ 创建    表   node这个数据库里面创建一个user表
+CREATE TABLE `node`.`user`(
+  id 字段 int(11)数据类型最大的值是11位           AUTO_INCREMENT重要
+ `id`     INT(11)                           NOT NULL AUTO_INCREMENT,
+ `username` varchar(64)	 NOT NULL ,
+  `pass` varchar(64) NOT NULL ,
+  PRIMARY KEY (`id`) // 重要: 主键
+  )
+ENGINE = InnoDB;
+//用户表
+CREATE TABLE `user`(
+ `id`     INT(11)  NOT NULL AUTO_INCREMENT,
+ `username` varchar(64)	 NOT NULL ,
+  `password` varchar(64) NOT NULL ,
+  `admin` int(11) NOT NULL ,
+  PRIMARY KEY (`id`)
+  )
+ENGINE = InnoDB charset=utf8;
+//文章表
+CREATE TABLE article(
+ `id`     INT(11)  NOT NULL AUTO_INCREMENT,
+ `title` varchar(64)	 NOT NULL ,
+  `tab` varchar(64) NOT NULL ,
+  `author` varchar(64) NOT NULL ,
+  `content` longtext NOT NULL ,
+  `time` varchar(64) NOT NULL ,
+  PRIMARY KEY (`id`)
+  )
+ENGINE = InnoDB charset=utf8;
+
+//评论列表
+CREATE TABLE discuss(
+ `id`     INT(11)  NOT NULL AUTO_INCREMENT,
+ `uid` INT(11)	 NOT NULL ,
+  `pid` INT(11) NOT NULL ,
+  `content` longtext NOT NULL ,
+  `time` varchar(64) NOT NULL ,
+  PRIMARY KEY (`id`)
+  )
+ENGINE = InnoDB charset=utf8;
+//回复列表
+CREATE TABLE reply(
+ `id`     INT(11)  NOT NULL AUTO_INCREMENT,
+ `uid` INT(11)	 NOT NULL ,
+  `pid` INT(11) NOT NULL ,
+  `did` INT(11) NOT NULL ,
+  `content` longtext NOT NULL ,
+  `time` varchar(64) NOT NULL ,
+  PRIMARY KEY (`id`)
+  )
+ENGINE = InnoDB charset=utf8;
+
+//个人信息表
+CREATE TABLE userinfo(
+ `id`     INT(11)  NOT NULL AUTO_INCREMENT,
+ `uid` INT(11)	 NOT NULL ,
+  `pic` varchar(64) NOT NULL ,
+  `nicname` varchar(64) NOT NULL ,
+  `sex` varchar(64) NOT NULL ,
+  PRIMARY KEY (`id`)
+  )
+ENGINE = InnoDB charset=utf8;
+
+//导航
+CREATE TABLE nav(
+ `id`     INT(11)  NOT NULL AUTO_INCREMENT,
+ `title` varchar(64)	 NOT NULL ,
+  `url` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`)
+  )
+ENGINE = InnoDB charset=utf8;
+//banner
+CREATE TABLE banner(
+ `id`     INT(11)  NOT NULL AUTO_INCREMENT,
+ `title` varchar(64)	 NOT NULL ,
+ `pic` varchar(64)	 NOT NULL ,
+  `content` longtext NOT NULL,
+  PRIMARY KEY (`id`)
+  )
+ENGINE = InnoDB charset=utf8;
+//浏览量
+CREATE TABLE reader(
+ `id`     INT(11)  NOT NULL AUTO_INCREMENT,
+ `time` varchar(64)	 NOT NULL ,
+ `username` varchar(64)	 NOT NULL ,
+  PRIMARY KEY (`id`)
+  )
+ENGINE = InnoDB charset=utf8;
+增
+  固定代码   哪个表       key
+INSERT INTO `wenzhagn` (`id`, `username`, `pass`) VALUES ('1', 'wulv', '123');
+
+删
+ 固定代码       删article表           因为id是唯一的   id = 0
+DELETE FROM `article` WHERE `id` = 0
+
+改     哪个表        id为15的这一条数据里 content的内容
+update `xxxx` set `username`='112313' where `id`=6666;
+
+查询shuoshuo这个表里的所有内容
+SELECT * FROM `shuoshuo` WHERE id = ?
